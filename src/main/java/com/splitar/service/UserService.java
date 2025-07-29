@@ -27,4 +27,18 @@ public class UserService {
     public Optional<User> getUserById(String id) {
         return userRepository.findById(id);
     }
+
+    public Optional<User> updateUser(String id, User userUpdates) {
+        return userRepository.findById(id)
+                .map(existingUser -> {
+                    if (userUpdates.getMobile() != null) {
+                        existingUser.setMobile(userUpdates.getMobile());
+                    }
+                    // ✅ ADDED: Logic to update the gender field
+                    if (userUpdates.getGender() != null) {
+                        existingUser.setGender(userUpdates.getGender());
+                    }
+                    return userRepository.save(existingUser);
+                });
+    }
 }

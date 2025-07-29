@@ -11,6 +11,8 @@ public class User {
     private String username;
     private String email;
     private String gender;
+    private String genderPreference;
+    private String mobile;
 
     // Constructors
     public User() {}
@@ -49,6 +51,14 @@ public class User {
 
     public String getGender() {
         return gender;
+    }
+
+    public String getMobile() {
+        return this.mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public void setGender(String gender) {
