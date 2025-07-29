@@ -14,4 +14,5 @@ public interface RidePostRepository extends MongoRepository<RidePost, String> {
 
     // Finds rides where the destination contains the given string (case-insensitive).
     List<RidePost> findByDestinationContainingIgnoreCase(String destination);
+
 }
