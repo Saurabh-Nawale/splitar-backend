@@ -9,3 +9,5 @@ public class SplitarApplication {
         SpringApplication.run(SplitarApplication.class, args);
     }
 }
+
+

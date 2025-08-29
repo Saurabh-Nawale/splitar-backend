@@ -3,6 +3,8 @@ package com.splitar.controller;
 import com.splitar.model.Notification;
 import com.splitar.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,24 +12,25 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/notifications")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class NotificationController {
 
+    private final NotificationService notificationService;
+
     @Autowired
-    private NotificationService notificationService;
-
-    @GetMapping("/{username}")
-    public List<Notification> getNotifications(@PathVariable String username) {
-        return notificationService.getNotificationsForUser(username);
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
     }
 
-    @PostMapping
-    public Notification createNotification(@RequestBody Notification notification) {
-        return notificationService.saveNotification(notification);
+    @PostMapping("/send")
+    public ResponseEntity<Notification> sendNotification(@RequestBody Notification notification) {
+        Notification createdNotification = notificationService.createNotification(notification);
+        return new ResponseEntity<>(createdNotification, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public Optional<Notification> updateStatus(@PathVariable String id, @RequestBody String status) {
-        return notificationService.updateStatus(id, status);
+    @GetMapping("/user/{username}")
+    public ResponseEntity<List<Notification>> getUserNotifications(@PathVariable String username) {
+        List<Notification> notifications = notificationService.getNotificationsForUser(username);
+        return ResponseEntity.ok(notifications);
     }
 }
